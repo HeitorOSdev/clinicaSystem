@@ -11,16 +11,12 @@ public class MedicoService {
 
     public MedicoService() {
     	medicoDao = new MedicoDao();
-    }
-   
-//    public void createTable() {
-//        return medicoDao.createTable();
-//    }
-    
+    } 
     
     public List<Medico> getMedicos() {
         return medicoDao.findAll();
     }
+    
 
     public boolean save(Medico medico) {
         return medicoDao.save(medico);

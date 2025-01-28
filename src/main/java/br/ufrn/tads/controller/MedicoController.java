@@ -1,25 +1,19 @@
 package br.ufrn.tads.controller;
 
 import java.io.IOException;
-//import java.sql.Connection;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import br.ufrn.tads.model.Medico;
 import br.ufrn.tads.service.MedicoService;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 
 import javafx.scene.input.MouseEvent;
-import javafx.util.Duration;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -28,9 +22,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 public class MedicoController {
     private MedicoService medicoService;
-    
-    @FXML
-    private Label lblDateTime;
 	
 	@FXML
     private TextField tfId;
@@ -52,6 +43,9 @@ public class MedicoController {
 
     @FXML
     private TableView<Medico> tbvMedicos;
+    
+//    @FXML
+//    private ObservableList<Medico> ObListMedico; ---> estah feito mais abaixo, depois de instanciar o service
     
     @FXML
     private TableColumn<Medico, Long> colId;
@@ -81,31 +75,22 @@ public class MedicoController {
     private Button ediButton;
     
     @FXML
-    private Button excButton;
-    
-//    Connection conn = null;
-//    ResultSet rs = null;
-//    
+    private Button excButton;   
     
     public MedicoController() {
-        // EXECUTADO PRIMEIRO
         medicoService = new MedicoService();
     }
+   
     
-    
-    
-    @FXML
-    public void initialize() {
+    public void initialize() throws IOException { //ja ja volto
     	
         
 //        Image img = new Image("listicon.png");
 //        ImageView imgView = new ImageView(img);
 //        listButton.setGraphic(imgView);
-//
 //        img = new Image("nometads.png");
 //        imgvLogo.setImage(img);
-        
-        animateTimeLabel();
+//        tbvMedicos.getColumns().addAll(colId, colNome, colCrm, colEspecialidade, colEmail, colTelefone);
     	
     	colId.setCellValueFactory(new PropertyValueFactory<Medico, Long>("id"));
     	colNome.setCellValueFactory(new PropertyValueFactory<Medico, String>("nome"));
@@ -113,8 +98,8 @@ public class MedicoController {
     	colEspecialidade.setCellValueFactory(new PropertyValueFactory<Medico, String>("especialidade"));
     	colEmail.setCellValueFactory(new PropertyValueFactory<Medico, String>("email"));
     	colTelefone.setCellValueFactory(new PropertyValueFactory<Medico, String>("telefone"));
-    	
-//    	tbvMedicos.getColumns().addAll(medicoService.getMedicos());
+
+    	listMedicos();
     	
     	busButton.setVisible(true);
         addButton.setVisible(true);
@@ -151,9 +136,15 @@ public class MedicoController {
         
     }
     
+    private void listMedicos() {
+                
+        ObservableList<Medico> list = FXCollections.observableArrayList(medicoService.getMedicos());
+        tbvMedicos.setItems(list);     
+        
+    }
+    
     @FXML
     private void addMedico(ActionEvent event) throws IOException {
-//    	medicoService.createTable();
         if (!tfNome.getText().isEmpty() && !tfCrm.getText().isEmpty() && !tfEspecialidade.getText().isEmpty() && !tfEmail.getText().isEmpty() && !tfTelefone.getText().isEmpty()) {
             String nome = tfNome.getText();
             String crm = tfCrm.getText();
@@ -164,7 +155,7 @@ public class MedicoController {
             Medico medico = new Medico(nome, crm, especialidade, telefone, email);
 
             if (medicoService.save(medico)) {
-                tbvMedicos.getItems().add(medico); //inclui na tableview, mas sem novo ID, pois primeiro precisa persistir no BD
+            	listMedicos();
             }
         }
     }
@@ -200,17 +191,8 @@ public class MedicoController {
         }
     }
     
-    void animateTimeLabel() {
-        DateTimeFormatter dtFmt = DateTimeFormatter.ofPattern("dd-MM-yyyy, HH:mm:ss");
 
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
-            lblDateTime.setText(dtFmt.format(LocalDateTime.now()));
-        }));
-        timeline.setCycleCount(-1); //Animation.INDEFINITE (-1)
-        timeline.play();
-    }
-
-// Declaracao completa de uma funcao em com JavaFX
+// Declaracao completa de uma funcao com JavaFX para interativos
 //    @FXML
 //    void nomeFuncao (ActionEvent event) throws IOException {
 //

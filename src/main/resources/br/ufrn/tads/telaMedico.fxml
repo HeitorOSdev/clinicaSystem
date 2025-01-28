@@ -9,16 +9,16 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="912.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.tads.controller.MedicoController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="955.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.tads.controller.MedicoController">
    <children>
-      <TableView fx:id="tbvMedicos" layoutX="367.0" onSort="#listMedicos" prefHeight="495.0" prefWidth="545.0">
+      <TableView fx:id="tbvMedicos" layoutX="367.0" onMouseClicked="#getItem" prefHeight="495.0" prefWidth="590.0">
         <columns>
           <TableColumn fx:id="colId" prefWidth="34.0" text="Id" />
           <TableColumn fx:id="colNome" prefWidth="103.0" text="Nome" />
             <TableColumn fx:id="colCrm" prefWidth="89.33331298828125" text="CRM" />
             <TableColumn fx:id="colEspecialidade" maxWidth="112.66668701171875" prefWidth="112.66668701171875" text="Especialidade" />
             <TableColumn fx:id="colEmail" maxWidth="120.66668701171875" prefWidth="106.33331298828125" text="Email" />
-            <TableColumn fx:id="colTelefone" maxWidth="121.0" prefWidth="97.33331298828125" text="Telefone" />
+            <TableColumn fx:id="colTelefone" maxWidth="142.0" prefWidth="142.0" text="Telefone" />
         </columns>
       </TableView>
       <Button fx:id="addButton" layoutX="109.0" layoutY="420.0" mnemonicParsing="false" onAction="#addMedico" text="Adicionar" />
