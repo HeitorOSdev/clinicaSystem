@@ -52,11 +52,11 @@ public class MedicoDao implements Dao<Medico> {
     @Override
     public List<Medico> findAll() { //listAll (if the database is huge, consider the use of pagination)
         List<Medico> medicos = new ArrayList<Medico>();
-        String sql = "select * from medico"; 
+        String sql = "select * from medico order by id"; 
         Connection conn = null;
         // prepares a query
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet= null; //stores the query result
+        ResultSet resultSet= null;
 
         try {
             conn = DBconnection.getConnection();

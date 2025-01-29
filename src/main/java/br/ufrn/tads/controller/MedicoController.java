@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 import javafx.scene.control.Button;
+//import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 
 import javafx.scene.input.MouseEvent;
@@ -65,8 +66,8 @@ public class MedicoController {
     @FXML
     private TableColumn<Medico, String> colTelefone;
     
-    @FXML
-    private Button busButton;
+//    @FXML
+//    private ComboBox<String> busComboBox;
     
     @FXML
     private Button addButton;
@@ -76,6 +77,9 @@ public class MedicoController {
     
     @FXML
     private Button excButton;   
+    
+    @FXML
+    private Button limparFormButton; 
     
     public MedicoController() {
         medicoService = new MedicoService();
@@ -101,7 +105,7 @@ public class MedicoController {
 
     	listMedicos();
     	
-    	busButton.setVisible(true);
+//    	busButton.setVisible(true);
         addButton.setVisible(true);
         ediButton.setDisable(true);
         excButton.setDisable(true);
@@ -122,7 +126,7 @@ public class MedicoController {
         tfEmail.setText(colEmail.getCellData(idx));
         tfTelefone.setText(colTelefone.getCellData(idx));
         
-        busButton.setDisable(true);
+//        busButton.setDisable(true);
         addButton.setDisable(true);
         ediButton.setDisable(false);
         excButton.setDisable(false);
@@ -165,13 +169,15 @@ public class MedicoController {
         if (!tfNome.getText().isEmpty() && !tfCrm.getText().isEmpty() && !tfEspecialidade.getText().isEmpty() && !tfEmail.getText().isEmpty() && !tfTelefone.getText().isEmpty()) {
         	if (medicoService.delete(Long.parseLong(tfId.getText()))) {
                 int idx = tbvMedicos.getSelectionModel().getSelectedIndex();
-                tbvMedicos.getItems().remove(idx); //inclui na tableview, mas sem novo ID, pois primeiro precisa persistir no BD
+                tbvMedicos.getItems().remove(idx);
                 tfId.clear();
                 tfNome.clear();
                 tfCrm.clear();
                 tfEspecialidade.clear();
                 tfEmail.clear();
                 tfTelefone.clear();
+                
+                addButton.setDisable(false);
             }
         }
     }
@@ -179,24 +185,37 @@ public class MedicoController {
     @FXML
     void ediMedico(ActionEvent event) {
         if (!tfNome.getText().isEmpty() && !tfCrm.getText().isEmpty() && !tfEspecialidade.getText().isEmpty() && !tfEmail.getText().isEmpty() && !tfTelefone.getText().isEmpty()) {
+        	Long id = Long.parseLong(tfId.getText());
         	String nome = tfNome.getText();
             String crm = tfCrm.getText();
             String especialidade = tfEspecialidade.getText();
             String email = tfEmail.getText();
             String telefone = tfTelefone.getText();
             
-            Medico medico = new Medico(nome, crm, especialidade, telefone, email);
+            Medico medico = new Medico(id, nome, crm, especialidade, telefone, email);
             
             medicoService.update(medico, null);
+            
+            listMedicos();
         }
     }
     
-
-// Declaracao completa de uma funcao com JavaFX para interativos
-//    @FXML
-//    void nomeFuncao (ActionEvent event) throws IOException {
-//
-//    }
+    @FXML
+    void limparForm(ActionEvent event) {
+        if (!tfNome.getText().isEmpty() && !tfCrm.getText().isEmpty() && !tfEspecialidade.getText().isEmpty() && !tfEmail.getText().isEmpty() && !tfTelefone.getText().isEmpty()) {
+            tfId.clear();
+            tfNome.clear();
+            tfCrm.clear();
+            tfEspecialidade.clear();
+            tfEmail.clear();
+            tfTelefone.clear();
+            
+            addButton.setDisable(false);
+            ediButton.setDisable(true);
+            excButton.setDisable(true);
+        }
+    }
+   
     	
     
     

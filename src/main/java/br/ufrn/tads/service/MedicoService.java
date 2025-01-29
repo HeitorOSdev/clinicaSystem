@@ -19,7 +19,11 @@ public class MedicoService {
     
 
     public boolean save(Medico medico) {
+    	
+    	//alguma logica para o id parar de autoincrementar ou voltar ao numero original antes de ser usado novamente, pois estah auoincrementando ateh dados que ele nao salva
+    	
         return medicoDao.save(medico);
+        
     }
 
     public boolean update(Medico medico, String[] params) {
