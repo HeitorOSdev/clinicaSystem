@@ -38,5 +38,23 @@ public class MedicoService {
         return medicoDao.findAllNome(nomeSql1, nomeSql2);
     }
     
+    public List<Medico> getMedicosCrm(String crm) { 
+    	
+		String crmSql1 = "%" + crm + "%";
+		String crmSql2 = "%" + crm;
+    	
+        return medicoDao.findAllCrm(crmSql1, crmSql2);
+    }
+    
+public List<Medico> getMedicosEspecialidade(String especialidade) { 
+    	
+		String especialidadeSql1 = "%" + especialidade + "%";
+		String especialidadeSql2 = "%" + especialidade;
+    	
+        return medicoDao.findAllEspecialidade(especialidadeSql1, especialidadeSql2);
+    }
+
+	
+    
     
 }

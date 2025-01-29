@@ -87,7 +87,7 @@ public class MedicoController {
     }
    
     
-    public void initialize() throws IOException { //ja ja volto
+    public void initialize() throws IOException {
     	
         
 //        Image img = new Image("listicon.png");
@@ -124,6 +124,9 @@ public class MedicoController {
     void getItem(MouseEvent event) {
         Integer idx = tbvMedicos.getSelectionModel().getSelectedIndex();
         if (idx <= -1) return;
+        
+        if (modoBuscaAtivado) desativarBusca();
+        
         tfId.setText(String.valueOf(colId.getCellData(idx)));
         tfNome.setText(colNome.getCellData(idx));
         tfCrm.setText(colCrm.getCellData(idx));
@@ -135,20 +138,23 @@ public class MedicoController {
         addButton.setDisable(true);
         ediButton.setDisable(false);
         excButton.setDisable(false);
+        
+        
+        
     }
     
     @FXML
     private void listMedicos(ActionEvent event) throws IOException {
                 
         ObservableList<Medico> list = FXCollections.observableArrayList(medicoService.getMedicos());
-        tbvMedicos.setItems(list);     
+        tbvMedicos.setItems(list);
         
     }
     
     private void listMedicos() {
                 
         ObservableList<Medico> list = FXCollections.observableArrayList(medicoService.getMedicos());
-        tbvMedicos.setItems(list);     
+        tbvMedicos.setItems(list);  
         
     }
     
@@ -168,7 +174,7 @@ public class MedicoController {
 	            	listMedicos();
 	            }
 //        	}else{
-//        		alert('crm ja existe digite outro') + deixar caixa vermelha
+//        		alert('crm ja existe, nao foi possivel adicionar') + deixar caixa vermelha
 //        	}
         }
     }
@@ -216,11 +222,8 @@ public class MedicoController {
     
     @FXML
     void limparForm(ActionEvent event) {
-       
-    	modoBuscaAtivado = false;
-    	modoBusButton.setText("Modo busca");
-    	limparFormButton.setText("Limpar campos de pesquisa");
     	
+        desativarBusca();
     	tfId.clear();
         tfNome.clear();
         tfCrm.clear();
@@ -228,19 +231,27 @@ public class MedicoController {
         tfEmail.clear();
         tfTelefone.clear();
         
-        tfNome.setDisable(false);
-        tfCrm.setDisable(false);
-        tfEspecialidade.setDisable(false);
-        tfEmail.setDisable(false);
-        tfTelefone.setDisable(false);
-        
         modoBusButton.setDisable(false);
         addButton.setDisable(false);
         ediButton.setDisable(true);
         excButton.setDisable(true);
-        
         listMedicos();
         
+    }
+    
+    @FXML
+    void desativarBusca() {
+    	
+    	modoBuscaAtivado = false;
+    	modoBusButton.setText("Modo busca");
+    	limparFormButton.setText("Limpar campos de pesquisa");
+    	
+    	tfNome.setDisable(false);
+        tfCrm.setDisable(false);
+        tfEspecialidade.setDisable(false);
+        tfEmail.setDisable(false);
+        tfTelefone.setDisable(false);
+
     }
     
     @FXML
@@ -267,15 +278,12 @@ public class MedicoController {
     void modoBusMedico(ActionEvent Event) {
     	modoBuscaAtivado = true;
     	limparFormParaBusca();
+    	listMedicos();
     	modoBusButton.setText("Outra busca");
     	limparFormButton.setText("Desativar busca");
 		//metodo para mudar o nome do botao de "limpar campos" para "resetar"
     	
     }
-    
-    /////////////////////////////////////////////
-//    @FXML void busMedico(ActionEvent Event) {} // remover e mudar o nome do outro para o que esse tem
-    ////////////////////////////////////////////  
     
     @FXML
     void tfNomeBuscar(ActionEvent Event) {
@@ -293,21 +301,33 @@ public class MedicoController {
     }
     
     @FXML
-    void tfCrmBusca(ActionEvent Event) {
+    void tfCrmBuscar(ActionEvent Event) {
     	if(modoBuscaAtivado) {
     		tfNome.setDisable(true);
     		tfEspecialidade.setDisable(true);
+    		tfNome.clear();
+    		tfEspecialidade.clear();
+    		
+    		String crm = tfCrm.getText();
+    		
+    		ObservableList<Medico> list = FXCollections.observableArrayList(medicoService.getMedicosCrm(crm));
+            tbvMedicos.setItems(list);
     	}
-    	
     }
     
     @FXML
-    void tfEspecialidadeBusca(ActionEvent Event) {
+    void tfEspecialidadeBuscar(ActionEvent Event) {
     	if(modoBuscaAtivado) {
-    		tfCrm.setDisable(true);
     		tfNome.setDisable(true);
+    		tfCrm.setDisable(true);
+    		tfNome.clear();
+    		tfCrm.clear();
+    		
+    		String especialidade = tfEspecialidade.getText();
+    		
+    		ObservableList<Medico> list = FXCollections.observableArrayList(medicoService.getMedicosEspecialidade(especialidade));
+            tbvMedicos.setItems(list);
     	}
-    	
     }
    
     	
