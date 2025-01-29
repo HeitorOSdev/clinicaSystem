@@ -183,4 +183,128 @@ public class MedicoDao implements Dao<Medico> {
         }
         return false;
     }
+   
+    public List<Medico> findAllNome(String nomeSql1, String nomeSql2) { //listAll (if the database is huge, consider the use of pagination)
+        List<Medico> medicos = new ArrayList<Medico>();
+        String sql = "select * from medico where nome like ? order by nome like ?"; 
+        Connection conn = null;
+        // prepares a query
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet= null;
+
+        try {
+            conn = DBconnection.getConnection();
+            preparedStatement = conn.prepareStatement(sql);
+            // sending the parameter to sql execution
+            preparedStatement.setString(1, nomeSql1);
+            preparedStatement.setString(2, nomeSql2);
+
+            resultSet = preparedStatement.executeQuery();
+            // iterates the resultSet and stores in the object the column values from the database
+            while (resultSet.next()){
+                Medico medico = new Medico();
+                medico.setId(resultSet.getLong("id")); // "id" is the column at postgres
+                medico.setCrm(resultSet.getString("crm"));
+                medico.setNome(resultSet.getString("nome"));
+                medico.setEspecialidade(resultSet.getString("especialidade"));
+                medico.setTelefone(resultSet.getString("telefone"));
+                medico.setEmail(resultSet.getString("email"));
+
+                medicos.add(medico); //add the object filled with database data to products list
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            // close all connections
+            try {
+                if (preparedStatement != null) preparedStatement.close();
+                if (conn != null) conn.close();
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return medicos;
+    }
+    
+//    public List<Medico> findAllEspecialidade() { //listAll (if the database is huge, consider the use of pagination)
+//        List<Medico> medicos = new ArrayList<Medico>();
+//        String sql = "select * from medico order by id"; 
+//        Connection conn = null;
+//        // prepares a query
+//        PreparedStatement preparedStatement = null;
+//        ResultSet resultSet= null;
+//
+//        try {
+//            conn = DBconnection.getConnection();
+//            preparedStatement = conn.prepareStatement(sql);
+//            resultSet = preparedStatement.executeQuery();
+//            // iterates the resultSet and stores in the object the column values from the database
+//            while (resultSet.next()){
+//                Medico medico = new Medico();
+//                medico.setId(resultSet.getLong("id")); // "id" is the column at postgres
+//                medico.setCrm(resultSet.getString("crm"));
+//                medico.setNome(resultSet.getString("nome"));
+//                medico.setEspecialidade(resultSet.getString("especialidade"));
+//                medico.setTelefone(resultSet.getString("telefone"));
+//                medico.setEmail(resultSet.getString("email"));
+//
+//                medicos.add(medico); //add the object filled with database data to products list
+//            }
+//        } catch(Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            // close all connections
+//            try {
+//                if (preparedStatement != null) preparedStatement.close();
+//                if (conn != null) conn.close();
+//            } catch(Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        return medicos;
+//    }
+//    
+//    //Buscando por CRM incompleto
+//    public List<Medico> findAllCrm() { //listAll (if the database is huge, consider the use of pagination)
+//        List<Medico> medicos = new ArrayList<Medico>();
+//        String sql = "select * from medico order by id"; 
+//        Connection conn = null;
+//        // prepares a query
+//        PreparedStatement preparedStatement = null;
+//        ResultSet resultSet= null;
+//
+//        try {
+//            conn = DBconnection.getConnection();
+//            preparedStatement = conn.prepareStatement(sql);
+//            resultSet = preparedStatement.executeQuery();
+//            // iterates the resultSet and stores in the object the column values from the database
+//            while (resultSet.next()){
+//                Medico medico = new Medico();
+//                medico.setId(resultSet.getLong("id")); // "id" is the column at postgres
+//                medico.setCrm(resultSet.getString("crm"));
+//                medico.setNome(resultSet.getString("nome"));
+//                medico.setEspecialidade(resultSet.getString("especialidade"));
+//                medico.setTelefone(resultSet.getString("telefone"));
+//                medico.setEmail(resultSet.getString("email"));
+//
+//                medicos.add(medico); //add the object filled with database data to products list
+//            }
+//        } catch(Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            // close all connections
+//            try {
+//                if (preparedStatement != null) preparedStatement.close();
+//                if (conn != null) conn.close();
+//            } catch(Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        return medicos;
+//    }
+//    
+//    
+    
+    
+
 }

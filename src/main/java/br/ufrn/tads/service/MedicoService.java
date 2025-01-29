@@ -19,11 +19,7 @@ public class MedicoService {
     
 
     public boolean save(Medico medico) {
-    	
-    	//alguma logica para o id parar de autoincrementar ou voltar ao numero original antes de ser usado novamente, pois estah auoincrementando ateh dados que ele nao salva
-    	
         return medicoDao.save(medico);
-        
     }
 
     public boolean update(Medico medico, String[] params) {
@@ -33,4 +29,14 @@ public class MedicoService {
     public boolean delete(Long id) {
         return medicoDao.delete(id);
     }
+    
+    public List<Medico> getMedicosNome(String nome) { 
+    	
+		String nomeSql1 = "%" + nome + "%";
+		String nomeSql2 = "%" + nome;
+    	
+        return medicoDao.findAllNome(nomeSql1, nomeSql2);
+    }
+    
+    
 }
