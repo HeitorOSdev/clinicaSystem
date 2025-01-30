@@ -46,7 +46,7 @@ public class MedicoService {
         return medicoDao.findAllCrm(crmSql1, crmSql2);
     }
     
-public List<Medico> getMedicosEspecialidade(String especialidade) { 
+    public List<Medico> getMedicosEspecialidade(String especialidade) { 
     	
 		String especialidadeSql1 = "%" + especialidade + "%";
 		String especialidadeSql2 = "%" + especialidade;

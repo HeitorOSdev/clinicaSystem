@@ -25,6 +25,16 @@ public class Paciente {
 		this.email = email;
 		this.genero = genero;
 	}
+	
+	public Paciente(Long id, String cpf, String nome, Date dataNascimento, String telefone, String email, String genero) {
+		this.id = id;
+		this.cpf = cpf;
+		this.nome = nome;
+		this.dataNascimento = dataNascimento;
+		this.telefone = telefone;
+		this.email = email;
+		this.genero = genero;
+	}
 
 	public Long getId() {
 		return id;

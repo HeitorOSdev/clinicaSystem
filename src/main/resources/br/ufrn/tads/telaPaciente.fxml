@@ -9,9 +9,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="955.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.tads.controller.MedicoController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="1010.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.tads.controller.MedicoController">
    <children>
-      <Text layoutX="109.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Menu Medico">
+      <Text layoutX="105.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Menu Paciente">
          <font>
             <Font size="24.0" />
          </font>
@@ -22,34 +22,37 @@
             <Font size="18.0" />
          </font>
       </Text>
-      <TextField fx:id="tfId" alignment="CENTER" editable="false" layoutX="173.0" layoutY="83.0" prefHeight="23.0" prefWidth="35.0">
+      <TextField fx:id="tfId" alignment="CENTER" editable="false" layoutX="173.0" layoutY="83.0" prefHeight="10.0" prefWidth="35.0">
          <font>
             <Font size="11.0" />
          </font></TextField>
-      <Text layoutX="104.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome" />
-      <TextField fx:id="tfNome" layoutX="99.0" layoutY="149.0" onAction="#tfNomeBuscar" />
-      <Text layoutX="105.0" layoutY="199.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CRM" />
-      <TextField fx:id="tfCrm" layoutX="99.0" layoutY="202.0" onAction="#tfCrmBuscar" />
-      <Text layoutX="104.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Especialidade" />
-      <TextField fx:id="tfEspecialidade" layoutX="98.0" layoutY="253.0" onAction="#tfEspecialidadeBuscar" />
-      <Text layoutX="102.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" />
-      <TextField fx:id="tfEmail" layoutX="98.0" layoutY="305.0" />
-      <Text layoutX="99.0" layoutY="356.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Telefone" />
-      <TextField fx:id="tfTelefone" layoutX="99.0" layoutY="359.0" />
+      <Text layoutX="105.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome" />
+      <TextField fx:id="tfNome" layoutX="100.0" layoutY="121.0" onAction="#tfNomeBuscar" />
+      <Text layoutX="106.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CPF" />
+      <TextField fx:id="tfCrm" layoutX="100.0" layoutY="174.0" onAction="#tfCrmBuscar" />
+      <Text layoutX="103.0" layoutY="224.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data de Nascimento" />
+      <TextField fx:id="tfEspecialidade" layoutX="99.0" layoutY="225.0" onAction="#tfEspecialidadeBuscar" />
+      <Text layoutX="103.0" layoutY="274.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gênero" />
+      <TextField fx:id="tfEmail" layoutX="99.0" layoutY="277.0" />
+      <Text layoutX="98.0" layoutY="320.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Telefone" />
+      <TextField fx:id="tfTelefone" layoutX="98.0" layoutY="323.0" />
       <Button fx:id="addButton" layoutX="22.0" layoutY="420.0" mnemonicParsing="false" onAction="#addMedico" text="Adicionar" />
       <Button fx:id="ediButton" layoutX="109.0" layoutY="420.0" mnemonicParsing="false" onAction="#ediMedico" text="Editar" />
       <Button fx:id="excButton" layoutX="181.0" layoutY="420.0" mnemonicParsing="false" onAction="#excMedico" text="Excluir" />
       <Button fx:id="modoBusButton" layoutX="262.0" layoutY="420.0" mnemonicParsing="false" onAction="#modoBusMedico" prefHeight="23.0" prefWidth="94.0" text="Modo Busca" />
       <Button fx:id="limparFormButton" layoutX="86.0" layoutY="458.0" mnemonicParsing="false" onAction="#limparForm" prefHeight="23.0" prefWidth="198.0" text="Limpar campos de texto" />
-      <TableView fx:id="tbvMedicos" layoutX="367.0" onMousePressed="#getItem" onMouseReleased="#getItem" prefHeight="495.0" prefWidth="590.0">
+      <TableView fx:id="tbvMedicos" layoutX="367.0" onMousePressed="#getItem" onMouseReleased="#getItem" prefHeight="495.0" prefWidth="650.0">
         <columns>
           <TableColumn fx:id="colId" prefWidth="34.0" text="Id" />
-          <TableColumn fx:id="colNome" prefWidth="103.0" text="Nome" />
-            <TableColumn fx:id="colCrm" prefWidth="89.33331298828125" text="CRM" />
-            <TableColumn fx:id="colEspecialidade" maxWidth="112.66668701171875" prefWidth="112.66668701171875" text="Especialidade" />
-            <TableColumn fx:id="colEmail" maxWidth="120.66668701171875" prefWidth="106.33331298828125" text="Email" />
-            <TableColumn fx:id="colTelefone" maxWidth="142.0" prefWidth="142.0" text="Telefone" />
+          <TableColumn fx:id="colNome" prefWidth="129.0" text="Nome" />
+            <TableColumn fx:id="colCrm" prefWidth="115.0" text="CPF" />
+            <TableColumn fx:id="colEspecialidade" maxWidth="131.0" prefWidth="85.0" text="Nascimento" />
+            <TableColumn fx:id="colEmail" maxWidth="120.66668701171875" prefWidth="51.0" text="Gênero" />
+            <TableColumn fx:id="colTelefone" maxWidth="142.0" prefWidth="111.0" text="Telefone" />
+            <TableColumn fx:id="colTelefone1" maxWidth="272.0" prefWidth="124.0" text="email" />
         </columns>
       </TableView>
+      <Text layoutX="98.0" layoutY="375.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" />
+      <TextField fx:id="tfTelefone1" layoutX="98.0" layoutY="378.0" />
    </children>
 </AnchorPane>

@@ -1,0 +1,25 @@
+
+    
+    
+        //EXECUTADO DEPOIS DO CONSTRUTOR
+        
+        Image img = new Image("listicon.png");
+        ImageView imgView = new ImageView(img);
+        listButton.setGraphic(imgView);
+
+        img = new Image("nometads.png");
+        imgvLogo.setImage(img);
+        
+        animateTimeLabel();
+
+    void animateTimeLabel() {
+        DateTimeFormatter dtFmt = DateTimeFormatter.ofPattern("dd-MM-yyyy, HH:mm:ss");
+
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
+            lblDateTime.setText(dtFmt.format(LocalDateTime.now()));
+        }));
+        timeline.setCycleCount(-1); //Animation.INDEFINITE (-1)
+        timeline.play();
+    }
+
+    

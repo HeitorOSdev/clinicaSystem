@@ -3,8 +3,8 @@ package br.ufrn.tads.repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-//import java.util.Date;
 import java.util.List;
 
 import br.ufrn.tads.model.Paciente;
@@ -187,4 +187,136 @@ public class PacienteDao implements Dao<Paciente> {
         }
         return false;
     }
+    
+    public List<Paciente> findAllNome(String nomeSql1, String nomeSql2) { //listAll (if the database is huge, consider the use of pagination)
+        List<Paciente> pacientes = new ArrayList<Paciente>();
+        String sql = "select * from paciente where nome like ? order by nome like ?"; 
+        Connection conn = null;
+        // prepares a query
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet= null;
+
+        try {
+            conn = DBconnection.getConnection();
+            preparedStatement = conn.prepareStatement(sql);
+            // sending the parameter to sql execution
+            preparedStatement.setString(1, nomeSql1);
+            preparedStatement.setString(2, nomeSql2);
+
+            resultSet = preparedStatement.executeQuery();
+            // iterates the resultSet and stores in the object the column values from the database
+            while (resultSet.next()){
+                Paciente paciente = new Paciente();
+                
+                SimpleDateFormat formatador = new SimpleDateFormat("yyyy-MM-dd");
+                
+                paciente.setId(resultSet.getLong("id")); // "id" is the column at postgres
+                paciente.setCpf(resultSet.getString("cpf"));
+                paciente.setNome(resultSet.getString("nome"));
+                paciente.setDataNascimento(formatador.parse(resultSet.getString("dataNascimento")));
+                paciente.setTelefone(resultSet.getString("telefone"));
+                paciente.setEmail(resultSet.getString("email"));
+
+                pacientes.add(paciente); //add the object filled with database data to products list
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            // close all connections
+            try {
+                if (preparedStatement != null) preparedStatement.close();
+                if (conn != null) conn.close();
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return pacientes;
+    }
+    
+    public List<Paciente> findAllCpf(String cpfSql1, String cpfSql2) { //listAll (if the database is huge, consider the use of pagination)
+        List<Paciente> pacientes = new ArrayList<Paciente>();
+        String sql = "select * from paciente where cpf like ? order by especialidade like ?"; 
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet= null;
+
+        try {
+            conn = DBconnection.getConnection();
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, cpfSql1);
+            preparedStatement.setString(2, cpfSql2);
+
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                Paciente paciente = new Paciente();
+                
+                SimpleDateFormat formatador = new SimpleDateFormat("yyyy-MM-dd");
+                
+                paciente.setId(resultSet.getLong("id")); // "id" is the column at postgres
+                paciente.setCpf(resultSet.getString("cpf"));
+                paciente.setNome(resultSet.getString("nome"));
+                paciente.setDataNascimento(formatador.parse(resultSet.getString("dataNascimento")));
+                paciente.setTelefone(resultSet.getString("telefone"));
+                paciente.setEmail(resultSet.getString("email"));
+
+                pacientes.add(paciente); //add the object filled with database data to products list
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (preparedStatement != null) preparedStatement.close();
+                if (conn != null) conn.close();
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return pacientes;
+    }
+
+    
+    
+    public List<Paciente> findAllGenero(String generoSql1, String generoSql2) { //listAll (if the database is huge, consider the use of pagination)
+        List<Paciente> pacientes = new ArrayList<Paciente>();
+        String sql = "select * from paciente where genero like ? order by crm like ?"; 
+        Connection conn = null;
+        // prepares a query
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet= null;
+
+        try {
+            conn = DBconnection.getConnection();
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, generoSql1);
+            preparedStatement.setString(2, generoSql2);
+
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                Paciente paciente = new Paciente();
+                
+                SimpleDateFormat formatador = new SimpleDateFormat("yyyy-MM-dd");
+                
+                paciente.setId(resultSet.getLong("id")); // "id" is the column at postgres
+                paciente.setCpf(resultSet.getString("cpf"));
+                paciente.setNome(resultSet.getString("nome"));
+                paciente.setDataNascimento(formatador.parse(resultSet.getString("dataNascimento")));
+                paciente.setTelefone(resultSet.getString("telefone"));
+                paciente.setEmail(resultSet.getString("email"));
+
+                pacientes.add(paciente); //add the object filled with database data to products list
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            // close all connections
+            try {
+                if (preparedStatement != null) preparedStatement.close();
+                if (conn != null) conn.close();
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return pacientes;
+    }
+    
 }

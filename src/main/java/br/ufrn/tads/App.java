@@ -14,7 +14,7 @@ public class App extends Application {
 
     @Override
     public void start(@SuppressWarnings("exports") Stage stage) throws IOException {
-        scene = new Scene(loadFXML("telaMedico"), 1000, 1500); //primary - telaMedico
+        scene = new Scene(loadFXML("telaPaciente"), 1000, 1500); // telaMedico - telaPaciente
         //scene.getStylesheets().add("fxmlcss.css"); //---> css que foi preparado para "primary"
         stage.setHeight(540);
         stage.setWidth(955);
