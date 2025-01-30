@@ -2,6 +2,7 @@ package br.ufrn.tads.controller;
 
 import java.io.IOException;
 
+import br.ufrn.tads.App;
 import br.ufrn.tads.model.Medico;
 import br.ufrn.tads.service.MedicoService;
 
@@ -24,6 +25,11 @@ public class MedicoController {
 	boolean modoBuscaAtivado = false;
 	
     private MedicoService medicoService;
+    
+    
+    @FXML
+    private Button voltarButton;
+    
 	
 	@FXML
     private TextField tfId;
@@ -81,6 +87,11 @@ public class MedicoController {
     
     @FXML
     private Button limparFormButton; 
+    
+    @FXML
+    private void switchToPrincipal() throws IOException {
+        App.setRoot("telaPrincipal", null);
+    }
     
     public MedicoController() {
         medicoService = new MedicoService();

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -11,7 +13,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="955.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.tads.controller.MedicoController">
    <children>
-      <Text layoutX="109.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Menu Medico">
+      <Text layoutX="112.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Menu Medico">
          <font>
             <Font size="24.0" />
          </font>
@@ -51,5 +53,8 @@
             <TableColumn fx:id="colTelefone" maxWidth="142.0" prefWidth="142.0" text="Telefone" />
         </columns>
       </TableView>
+      <TabPane layoutX="256.0" layoutY="95.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" />
+      <ButtonBar layoutX="284.0" layoutY="495.0" prefHeight="40.0" prefWidth="200.0" />
+    <Button fx:id="voltarButton" alignment="TOP_CENTER" layoutX="-6.0" layoutY="477.0" mnemonicParsing="false" onAction="#switchToPrincipal" prefHeight="40.0" prefWidth="58.0" text="Voltar" />
    </children>
 </AnchorPane>

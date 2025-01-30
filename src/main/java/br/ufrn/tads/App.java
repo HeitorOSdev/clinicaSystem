@@ -14,22 +14,27 @@ public class App extends Application {
 
     @Override
     public void start(@SuppressWarnings("exports") Stage stage) throws IOException {
-        scene = new Scene(loadFXML("telaPaciente"), 1000, 1500); // telaMedico - telaPaciente
-        //scene.getStylesheets().add("fxmlcss.css"); //---> css que foi preparado para "primary"
+        scene = new Scene(loadFXML("telaPrincipal"), 1000, 1500); // telaMedico - telaPaciente
+        scene.getStylesheets().add("fxmlcss.css");
         stage.setHeight(540);
         stage.setWidth(955);
-        stage.setTitle("telaMedico");
+        stage.setTitle("clínicaSystem");
         stage.setScene(scene);
         stage.show();
     }
 
-    public static void setRoot(String fxml) throws IOException {
+    public static void setRoot(String fxml, String css) throws IOException {
         scene.setRoot(loadFXML(fxml));
+        scene.getStylesheets().add(loadCSS(css));
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
+    }
+    
+    private static String loadCSS (String css) {
+    	return (css + ".css");
     }
 
     public static void main(String[] args) {

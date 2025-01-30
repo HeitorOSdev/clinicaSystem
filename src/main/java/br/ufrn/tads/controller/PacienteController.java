@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import br.ufrn.tads.App;
 import br.ufrn.tads.model.Paciente;
 import br.ufrn.tads.service.PacienteService;
 
@@ -23,6 +24,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class PacienteController {
+	
+    @FXML
+    private Button voltarButton;
 	
 	boolean modoBuscaAtivado = false;
 	
@@ -88,6 +92,11 @@ public class PacienteController {
     @FXML
     private Button limparFormButton; 
     
+    @FXML
+    private void switchToPrincipal() throws IOException {
+        App.setRoot("telaPrincipal", null);
+    }
+    
     public PacienteController() {
         pacienteService = new PacienteService();
     }
@@ -101,9 +110,9 @@ public class PacienteController {
     	colNome.setCellValueFactory(new PropertyValueFactory<Paciente, String>("nome"));
     	colCpf.setCellValueFactory(new PropertyValueFactory<Paciente, String>("cpf"));
     	colDataNascimento.setCellValueFactory(new PropertyValueFactory<Paciente, Date>("dataNascimento"));
-    	colEmail.setCellValueFactory(new PropertyValueFactory<Paciente, String>("email"));
     	colTelefone.setCellValueFactory(new PropertyValueFactory<Paciente, String>("telefone"));
     	colGenero.setCellValueFactory(new PropertyValueFactory<Paciente, String>("genero"));
+    	colEmail.setCellValueFactory(new PropertyValueFactory<Paciente, String>("email"));
 
     	listPacientes();
     	
@@ -131,9 +140,9 @@ public class PacienteController {
         tfNome.setText(colNome.getCellData(idx));
         tfCpf.setText(colCpf.getCellData(idx));
         tfDataNascimento.setText(colDataNascimento.getCellData(idx).toString());
-        tfEmail.setText(colEmail.getCellData(idx));
         tfTelefone.setText(colTelefone.getCellData(idx));
-        tfGenero.setText(colGenero.getCellData(idx));        
+        tfGenero.setText(colGenero.getCellData(idx));     
+        tfEmail.setText(colEmail.getCellData(idx));
         
         modoBusButton.setDisable(true);
         addButton.setDisable(true);
@@ -205,7 +214,7 @@ public class PacienteController {
         	
         	excButton.setDisable(true);
         	
-        	SimpleDateFormat formatador = new SimpleDateFormat("yyyy-MM-dd");
+        	SimpleDateFormat formatador = new SimpleDateFormat("yyyy-[m]m-[d]d");
 
         	
         	Long id = Long.parseLong(tfId.getText());

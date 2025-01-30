@@ -91,7 +91,8 @@ public class PacienteDao implements Dao<Paciente> {
         return pacientes;
     }
 
-    @Override
+
+	@Override
     public boolean save(Paciente paciente) {
         String sql = "insert into paciente (nome, cpf, dataNascimento, telefone, email, genero)" + " values (?, ?, ?, ?, ?, ?)"; 
         Connection conn = null;
@@ -99,11 +100,14 @@ public class PacienteDao implements Dao<Paciente> {
         PreparedStatement preparedStatement = null;
         
         try {
+        	
+        	SimpleDateFormat formatar = new SimpleDateFormat("yyyy-MM-dd");
+        	
         	conn = DBconnection.getConnection();
             preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, paciente.getNome());
             preparedStatement.setString(2, paciente.getCpf());
-            preparedStatement.setDate(3, (java.sql.Date) paciente.getDataNascimento());
+            preparedStatement.setDate(3, java.sql.Date.valueOf(formatar.format((paciente.getDataNascimento()))));
             preparedStatement.setString(4, paciente.getTelefone());
             preparedStatement.setString(5, paciente.getEmail());
             preparedStatement.setString(6, paciente.getGenero());
@@ -125,7 +129,7 @@ public class PacienteDao implements Dao<Paciente> {
         return false;
     }
 
-    @Override
+	@Override
     public boolean update(Paciente paciente, String[] params) {
         // if you use params, use parse methods (parseFloat, parseLong etc.)
         String sql = "update product set nome = ?, cpf = ?, dataNascimento = ?, telefone = ?, email = ?, genero = ?  where id = ?"; 
@@ -134,11 +138,14 @@ public class PacienteDao implements Dao<Paciente> {
         PreparedStatement preparedStatement = null;
         
         try {
+        	
+        	SimpleDateFormat formatar = new SimpleDateFormat("yyyy-MM-dd");
+            
         	conn = DBconnection.getConnection();
             preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, paciente.getNome());
             preparedStatement.setString(2, paciente.getCpf());
-            preparedStatement.setDate(3, (java.sql.Date) paciente.getDataNascimento());
+            preparedStatement.setDate(3, java.sql.Date.valueOf(formatar.format((paciente.getDataNascimento()))));
             preparedStatement.setString(4, paciente.getTelefone());
             preparedStatement.setString(5, paciente.getEmail());
             preparedStatement.setString(6, paciente.getGenero());

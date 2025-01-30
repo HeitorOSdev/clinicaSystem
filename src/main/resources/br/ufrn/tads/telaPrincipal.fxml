@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="955.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.tads.controller.PrincipalController">
+   <children>
+      <Label layoutX="319.0" layoutY="168.0" text="Bem vindo ao ClinicaSystem !">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Line endX="440.0" layoutX="307.0" layoutY="203.0" startX="-100.0" />
+      <ButtonBar layoutX="319.0" layoutY="230.0" prefHeight="40.0" prefWidth="278.0">
+         <buttons>
+            <Button fx:id="medicoButton" mnemonicParsing="false" onAction="#switchToMedico" text="Medico" />
+          <Button fx:id="pacienteButton" mnemonicParsing="false" onAction="#switchToPaciente" text="Paciente" />
+            <Button fx:id="consultaButton" mnemonicParsing="false" onAction="#switchToConsulta" text="Consulta" />
+         </buttons>
+      </ButtonBar>
+      <Label layoutX="336.0" layoutY="204.0" text="Selecione um dos menus abaixo para prosseguir" />
+   </children>
+</AnchorPane>

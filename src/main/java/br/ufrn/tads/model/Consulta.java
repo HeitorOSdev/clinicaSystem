@@ -26,6 +26,16 @@ public class Consulta {
 		this.descricao = descricao;
 		this.relatosClinicos = relatosClinicos;
 	}
+	
+	public Consulta(Long id, Long fkPaciente, Long fkMedico, Date data, String queixa, String descricao, String relatosClinicos) {
+		this.id = id;
+		this.fkPaciente = fkPaciente;
+		this.fkMedico = fkMedico;
+		this.data = data;
+		this.queixa = queixa;
+		this.descricao = descricao;
+		this.relatosClinicos = relatosClinicos;
+	}
 
 	public Long getId() {
 		return id;

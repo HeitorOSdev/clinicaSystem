@@ -28,5 +28,28 @@ public class ConsultaService {
     public boolean delete(Long id) {
         return consultaDao.delete(id);
     }
+    
+    public List<Consulta> getConsultasMedico(Long medico) { 
+    	
+		String idMedSql = medico.toString();
+    	
+        return consultaDao.findAllMedico(idMedSql);
+    }
+    
+    public List<Consulta> getConsultasPaciente(Long paciente) { 
+    	
+		String idPacSql = paciente.toString();
+    	
+        return consultaDao.findAllPaciente(idPacSql);
+    }
+    
+    public List<Consulta> getConsultasData(String data) { 
+    	
+		String dataSql1 = "%" + data + "%";
+		String dataSql2 = "%" + data;
+    	
+        return consultaDao.findAllData(dataSql1, dataSql2);
+    }
+    
 }
  

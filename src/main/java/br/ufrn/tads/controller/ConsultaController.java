@@ -1,8 +1,11 @@
 package br.ufrn.tads.controller;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import br.ufrn.tads.App;
 import br.ufrn.tads.model.Consulta;
 import br.ufrn.tads.service.ConsultaService;
 
@@ -21,6 +24,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class ConsultaController {
+	
+    @FXML
+    private Button voltarButton;
 	
 	boolean modoBuscaAtivado = false;
 	
@@ -54,10 +60,10 @@ public class ConsultaController {
     private TableColumn<Consulta, Long> colId;
     
     @FXML
-    private TableColumn<Consulta, String> colPaciente;
+    private TableColumn<Consulta, Long> colPaciente;
     
     @FXML
-    private TableColumn<Consulta, String> colMedico;
+    private TableColumn<Consulta, Long> colMedico;
     
     @FXML
     private TableColumn<Consulta, Date> colData;
@@ -86,23 +92,26 @@ public class ConsultaController {
     @FXML
     private Button limparFormButton; 
     
+    @FXML
+    private void switchToPrincipal() throws IOException {
+        App.setRoot("telaPrincipal", null);
+    }
+    
     public ConsultaController() {
         consultaService = new ConsultaService();
     }
    
     
     public void initialize() throws IOException {
-
-        //(id, fkMedico, fkPaciente, data, queixa, descricao, relatosClinicos)
-        // Criar uma view para pesquisar e mostrar diretamente os nomes dos pacientes e dos medicos
     	
     	colId.setCellValueFactory(new PropertyValueFactory<Consulta, Long>("id"));
-    	colNome.setCellValueFactory(new PropertyValueFactory<Consulta, String>("nome"));
-    	colCrm.setCellValueFactory(new PropertyValueFactory<Consulta, String>("crm"));
-    	colEspecialidade.setCellValueFactory(new PropertyValueFactory<Consulta, String>("especialidade"));
-    	colEmail.setCellValueFactory(new PropertyValueFactory<Consulta, String>("email"));
-    	colTelefone.setCellValueFactory(new PropertyValueFactory<Consulta, String>("telefone"));
-
+    	colMedico.setCellValueFactory(new PropertyValueFactory<Consulta, Long>("fkMedico")); //referenciar aqui o nome de medico atraves de uma view... possivelmente serah aqui
+    	colPaciente.setCellValueFactory(new PropertyValueFactory<Consulta, Long>("fkPaciente"));
+    	colData.setCellValueFactory(new PropertyValueFactory<Consulta, Date>("data"));
+    	colQueixa.setCellValueFactory(new PropertyValueFactory<Consulta, String>("queixa"));
+    	colDescricao.setCellValueFactory(new PropertyValueFactory<Consulta, String>("descricao"));
+    	colRelatosClinicos.setCellValueFactory(new PropertyValueFactory<Consulta, String>("relatosClinicos"));
+    	
     	listConsultas();
     	
     	modoBusButton.setDisable(false);
@@ -112,10 +121,7 @@ public class ConsultaController {
         addButton.setVisible(true);
         ediButton.setDisable(true);
         excButton.setDisable(true);
-        
-        
-        
-              
+            
     }
     
     //método para obter itens da linha selecionada da tabela e copiar para o form com os text fields
@@ -127,18 +133,17 @@ public class ConsultaController {
         if (modoBuscaAtivado) desativarBusca();
         
         tfId.setText(String.valueOf(colId.getCellData(idx)));
-        tfNome.setText(colNome.getCellData(idx));
-        tfCrm.setText(colCrm.getCellData(idx));
-        tfEspecialidade.setText(colEspecialidade.getCellData(idx));
-        tfEmail.setText(colEmail.getCellData(idx));
-        tfTelefone.setText(colTelefone.getCellData(idx));
+        tfMedico.setText(String.valueOf(colMedico.getCellData(idx)));
+        tfPaciente.setText(String.valueOf(colPaciente.getCellData(idx)));
+        tfData.setText(colData.getCellData(idx).toString());
+        tfQueixa.setText(colQueixa.getCellData(idx));
+        tfDescricao.setText(colDescricao.getCellData(idx));
+        tfRelatosClinicos.setText(colRelatosClinicos.getCellData(idx));
         
         modoBusButton.setDisable(true);
         addButton.setDisable(true);
         ediButton.setDisable(false);
-        excButton.setDisable(false);
-        
-        
+        excButton.setDisable(false);  
         
     }
     
@@ -158,38 +163,40 @@ public class ConsultaController {
     }
     
     @FXML
-    private void addConsulta(ActionEvent event) throws IOException {
-        if (!tfNome.getText().isEmpty() && !tfCrm.getText().isEmpty() && !tfEspecialidade.getText().isEmpty() && !tfEmail.getText().isEmpty() && !tfTelefone.getText().isEmpty()) {
-//        	if(!crm == crmList) {
-        		String nome = tfNome.getText();
-	            String crm = tfCrm.getText();
-	            String especialidade = tfEspecialidade.getText();
-	            String email = tfEmail.getText();
-	            String telefone = tfTelefone.getText();
-	            
-	            Consulta consulta = new Consulta(nome, crm, especialidade, telefone, email);
-	
-	            if (consultaService.save(consulta)) {
-	            	listConsultas();
-	            }
-//        	}else{
-//        		alert('crm ja existe, nao foi possivel adicionar') + deixar caixa vermelha
-//        	}
+    private void addConsulta(ActionEvent event) throws IOException, ParseException {
+        if (!tfMedico.getText().isEmpty() && !tfPaciente.getText().isEmpty() && !tfData.getText().isEmpty() && !tfQueixa.getText().isEmpty() && !tfDescricao.getText().isEmpty() && !tfRelatosClinicos.getText().isEmpty()) {
+
+        	SimpleDateFormat formatador = new SimpleDateFormat("yyyy-MM-dd");
+
+    		Long medico = Long.parseLong(tfMedico.getText());
+    		Long paciente = Long.parseLong(tfPaciente.getText());
+            Date data = formatador.parse(tfData.getText());
+            String queixa = tfQueixa.getText();
+            String descricao = tfDescricao.getText();
+            String relatosClinicos = tfRelatosClinicos.getText();
+            
+            Consulta consulta = new Consulta(medico, paciente, data, queixa, descricao, relatosClinicos);
+
+            if (consultaService.save(consulta)) {
+            	listConsultas();
+            }
         }
     }
 
     @FXML
     void excConsulta(ActionEvent event) {
-        if (!tfNome.getText().isEmpty() && !tfCrm.getText().isEmpty() && !tfEspecialidade.getText().isEmpty() && !tfEmail.getText().isEmpty() && !tfTelefone.getText().isEmpty()) {
+        if (!tfMedico.getText().isEmpty() && !tfPaciente.getText().isEmpty() && !tfData.getText().isEmpty() && !tfQueixa.getText().isEmpty() && !tfDescricao.getText().isEmpty() && !tfRelatosClinicos.getText().isEmpty()) {
         	if (consultaService.delete(Long.parseLong(tfId.getText()))) {
+        		
                 int idx = tbvConsultas.getSelectionModel().getSelectedIndex();
                 tbvConsultas.getItems().remove(idx);
                 tfId.clear();
-                tfNome.clear();
-                tfCrm.clear();
-                tfEspecialidade.clear();
-                tfEmail.clear();
-                tfTelefone.clear();
+                tfMedico.clear();
+                tfPaciente.clear();
+                tfData.clear();
+                tfQueixa.clear();
+                tfDescricao.clear();
+                tfRelatosClinicos.clear();
                 
                 addButton.setDisable(false);
                 excButton.setDisable(true);
@@ -199,19 +206,22 @@ public class ConsultaController {
     }
     
     @FXML
-    void ediConsulta(ActionEvent event) {
-        if (!tfNome.getText().isEmpty() && !tfCrm.getText().isEmpty() && !tfEspecialidade.getText().isEmpty() && !tfEmail.getText().isEmpty() && !tfTelefone.getText().isEmpty()) {
+    void ediConsulta(ActionEvent event) throws ParseException {
+        if (!tfMedico.getText().isEmpty() && !tfPaciente.getText().isEmpty() && !tfData.getText().isEmpty() && !tfQueixa.getText().isEmpty() && !tfDescricao.getText().isEmpty() && !tfRelatosClinicos.getText().isEmpty()) {
         	
         	excButton.setDisable(true);
         	
+        	SimpleDateFormat formatador = new SimpleDateFormat("yyyy-MM-dd");
+        	
         	Long id = Long.parseLong(tfId.getText());
-        	String nome = tfNome.getText();
-            String crm = tfCrm.getText();
-            String especialidade = tfEspecialidade.getText();
-            String email = tfEmail.getText();
-            String telefone = tfTelefone.getText();
+    		Long medico = Long.parseLong(tfMedico.getText());
+    		Long paciente = Long.parseLong(tfPaciente.getText());
+            Date data = formatador.parse(tfData.getText());
+            String queixa = tfQueixa.getText();
+            String descricao = tfDescricao.getText();
+            String relatosClinicos = tfRelatosClinicos.getText();
             
-            Consulta consulta = new Consulta(id, nome, crm, especialidade, telefone, email);
+            Consulta consulta = new Consulta(id, medico, paciente, data, queixa, descricao, relatosClinicos);
             
             consultaService.update(consulta, null);
             
@@ -223,12 +233,13 @@ public class ConsultaController {
     void limparForm(ActionEvent event) {
     	
         desativarBusca();
-    	tfId.clear();
-        tfNome.clear();
-        tfCrm.clear();
-        tfEspecialidade.clear();
-        tfEmail.clear();
-        tfTelefone.clear();
+        tfId.clear();
+        tfMedico.clear();
+        tfPaciente.clear();
+        tfData.clear();
+        tfQueixa.clear();
+        tfDescricao.clear();
+        tfRelatosClinicos.clear();
         
         modoBusButton.setDisable(false);
         addButton.setDisable(false);
@@ -245,32 +256,39 @@ public class ConsultaController {
     	modoBusButton.setText("Modo busca");
     	limparFormButton.setText("Limpar campos de pesquisa");
     	
-    	tfNome.setDisable(false);
-        tfCrm.setDisable(false);
-        tfEspecialidade.setDisable(false);
-        tfEmail.setDisable(false);
-        tfTelefone.setDisable(false);
+        tfMedico.setDisable(false);
+        tfPaciente.setDisable(false);
+        tfData.setDisable(false);
+        tfQueixa.setDisable(false);
+        tfDescricao.setDisable(false);
+        tfRelatosClinicos.setDisable(false);
 
     }
     
     @FXML
     void limparFormParaBusca() {
         tfId.clear();
-        tfNome.clear();
-        tfCrm.clear();
-        tfEspecialidade.clear();
-        tfEmail.clear();
-        tfTelefone.clear();
+        tfMedico.clear();
+        tfPaciente.clear();
+        tfData.clear();
+        tfQueixa.clear();
+        tfDescricao.clear();
+        tfRelatosClinicos.clear();
         
         addButton.setDisable(true);
         ediButton.setDisable(true);
         excButton.setDisable(true);
-    	tfEmail.setDisable(true);
-    	tfTelefone.setDisable(true);
+        
+        //(id, fkMedico, fkPaciente, data, queixa, descricao, relatosClinicos)
+        // Criar uma view para pesquisar e mostrar diretamente os nomes dos pacientes e dos medicos
+        
+    	tfQueixa.setDisable(true);
+    	tfDescricao.setDisable(true);
+    	tfRelatosClinicos.setDisable(true);
     	
-		tfNome.setDisable(false);
-    	tfCrm.setDisable(false);
-		tfEspecialidade.setDisable(false);
+		tfMedico.setDisable(false);
+    	tfPaciente.setDisable(false);
+		tfData.setDisable(false);
     }
     
     @FXML
@@ -279,54 +297,55 @@ public class ConsultaController {
     	limparFormParaBusca();
     	listConsultas();
     	modoBusButton.setText("Outra busca");
-    	limparFormButton.setText("Desativar busca");
-		//metodo para mudar o nome do botao de "limpar campos" para "resetar"
+    	limparFormButton.setText("Desativar busca");    	
+    }
+    
+    @FXML
+    void tfMedicoBuscar(ActionEvent Event) {
+    	if(modoBuscaAtivado) {
+    		tfPaciente.setDisable(true);
+    		tfData.setDisable(true);
+    		tfPaciente.clear();
+    		tfData.clear();
+    		
+    		Long medico = Long.parseLong(tfMedico.getText());
+    		
+    		ObservableList<Consulta> list = FXCollections.observableArrayList(consultaService.getConsultasMedico(medico));
+            tbvConsultas.setItems(list);
+    	}
+    }
+    
+    @FXML
+    void tfPacienteBuscar(ActionEvent Event) {
+    	if(modoBuscaAtivado) {
+    		tfMedico.setDisable(true);
+    		tfData.setDisable(true);
+    		tfMedico.clear();
+    		tfData.clear();
+    		
+    		Long paciente = Long.parseLong(tfPaciente.getText());
+    		
+    		ObservableList<Consulta> list = FXCollections.observableArrayList(consultaService.getConsultasPaciente(paciente));
+            tbvConsultas.setItems(list);
+    	}
+    }
+    
+    @FXML
+    void tfDataBuscar(ActionEvent Event) { // suspeito que aqui vai ter problema com datas
+    	if(modoBuscaAtivado) {
+    		tfMedico.setDisable(true);
+    		tfPaciente.setDisable(true);
+    		tfMedico.clear();
+    		tfPaciente.clear();
+    		
+    		String data = tfData.getText();
+    		
+    		ObservableList<Consulta> list = FXCollections.observableArrayList(consultaService.getConsultasData(data));
+            tbvConsultas.setItems(list);
+    	}
     	
-    }
-    
-    @FXML
-    void tfNomeBuscar(ActionEvent Event) {
-    	if(modoBuscaAtivado) {
-    		tfCrm.setDisable(true);
-    		tfEspecialidade.setDisable(true);
-    		tfCrm.clear();
-    		tfEspecialidade.clear();
-    		
-    		String nome = tfNome.getText();
-    		
-    		ObservableList<Consulta> list = FXCollections.observableArrayList(consultaService.getConsultasNome(nome));
-            tbvConsultas.setItems(list);
-    	}
-    }
-    
-    @FXML
-    void tfCrmBuscar(ActionEvent Event) {
-    	if(modoBuscaAtivado) {
-    		tfNome.setDisable(true);
-    		tfEspecialidade.setDisable(true);
-    		tfNome.clear();
-    		tfEspecialidade.clear();
-    		
-    		String crm = tfCrm.getText();
-    		
-    		ObservableList<Consulta> list = FXCollections.observableArrayList(consultaService.getConsultasCrm(crm));
-            tbvConsultas.setItems(list);
-    	}
-    }
-    
-    @FXML
-    void tfEspecialidadeBuscar(ActionEvent Event) {
-    	if(modoBuscaAtivado) {
-    		tfNome.setDisable(true);
-    		tfCrm.setDisable(true);
-    		tfNome.clear();
-    		tfCrm.clear();
-    		
-    		String especialidade = tfEspecialidade.getText();
-    		
-    		ObservableList<Consulta> list = FXCollections.observableArrayList(consultaService.getConsultasEspecialidade(especialidade));
-            tbvConsultas.setItems(list);
-    	}
+
+    	
     }
    
     	

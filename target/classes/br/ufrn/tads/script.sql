@@ -52,27 +52,27 @@ INSERT INTO Medico(crm, nome, especialidade, telefone, email) VALUES --deveria t
 ('654123/RS', 'Helena Silva', 'Ginecologia', '(84)99999-0000', 'helena@email'),
 ('789987/RJ', 'Serena Ramos', 'Hematologia', '(84)90101-0202', 'serena@email');
 
-INSERT INTO Paciente(nome, cpf, dataNascimento, genero, telefone, email), VALUES
-('nome', 'cpf', 'dataNascimento', 'genero', 'telefone', 'email'),
-('nome', 'cpf', 'dataNascimento', 'genero', 'telefone', 'email'),
-('nome', 'cpf', 'dataNascimento', 'genero', 'telefone', 'email'),
-('nome', 'cpf', 'dataNascimento', 'genero', 'telefone', 'email'),
-('nome', 'cpf', 'dataNascimento', 'genero', 'telefone', 'email'),
-('nome', 'cpf', 'dataNascimento', 'genero', 'telefone', 'email'),
-('nome', 'cpf', 'dataNascimento', 'genero', 'telefone', 'email'),
-('nome', 'cpf', 'dataNascimento', 'genero', 'telefone', 'email'),
-('nome', 'cpf', 'dataNascimento', 'genero', 'telefone', 'email'),
-('nome', 'cpf', 'dataNascimento', 'genero', 'telefone', 'email');
+INSERT INTO Paciente(nome, cpf, dataNascimento, genero, telefone, email) VALUES
+('Heitor Felipe', '111.222.333-11', '2005-08-06', 'M', '(84)90000-0000', 'heitorfelipe@email'),
+('Cassio de Prata', '222.333.444-12', '2020-10-02', 'M', '(84)90000-0001', 'cassio@email'),
+('Nilce Campos', '333.444.555-13', '1992-10-30', 'F', '(84)90000-0010', 'nil@email'),
+('Leonardo Moreto', '444.555.666-14', '1991-02-15', 'M', '(84)90000-0011', 'leon@email'),
+('Luke de Caxias', '555.666.777-11', '1986-08-17', 'M', '(84)90000-0100', 'luke@email'),
+('Susana Gloria', '666.777.888-15', '1988-12-25', 'F', '(84)90000-0101', 'susana@email'),
+('Valeska Silva', '777.888.999-12', '2002-09-21', 'F', '(84)90000-0110', 'valesk@email'),
+('Silvio Lima', '101.202.303-21', '2004-06-08', 'M', '(84)90000-0111', 'silvio@email'),
+('Saulo de Tarso', '202.303.404-32', '2006-01-28', 'M', '(84)90000-1000', 'saulo@email'),
+('Pedro Carvalho', '303.404.505-43', '2000-05-31', 'M', '(84)90000-1001', 'pedro@email');
 
-INSERT INTO Consulta(data, queixa, descricao, relatosClinicos) VALUES
-('data', 'queixa', 'descricao', 'relatosClinicos'),
-('data', 'queixa', 'descricao', 'relatosClinicos'),
-('data', 'queixa', 'descricao', 'relatosClinicos'),
-('data', 'queixa', 'descricao', 'relatosClinicos'),
-('data', 'queixa', 'descricao', 'relatosClinicos'),
-('data', 'queixa', 'descricao', 'relatosClinicos'),
-('data', 'queixa', 'descricao', 'relatosClinicos'),
-('data', 'queixa', 'descricao', 'relatosClinicos'),
-('data', 'queixa', 'descricao', 'relatosClinicos'),
-('data', 'queixa', 'descricao', 'relatosClinicos');
+INSERT INTO Consulta(fkPaciente, fkMedico, data, queixa, descricao, relatosClinicos) VALUES
+(1, 1, '2024-08-06', 'Dor no peito', 'Pressao alta e possibilidade de entupimento das veias', 'exame de sangue'),
+(1, 2, '2024-09-16', 'Dor de cabeca', 'Pressao alta, paciente carrega peso alto demais na academia', 'nenhum'),
+(2, 3, '2024-09-23', 'Espirrando muito', 'Garganta inflamada', 'nenhum'),
+(3, 9, '2024-10-09', 'Dores', 'Possibilidade de inflamacao', 'nenhum'),
+(3, 5, '2024-11-17', 'Pele fina e fraca', 'descricao', 'Exame de sangue'),
+(5, 6, '2024-12-18', 'Coceira', 'descricao', 'nenhum'),
+(6, 6, '2025-01-03', 'Coceira no couro cabeludo', 'descricao', 'nenhum'),
+(7, 8, '2025-01-10', 'Dor de barriga', 'Dieta muito acida', 'nenhum'),
+(1, 10, '2025-01-15', 'Tontura', 'Baixo teor de ferro no sangue', 'Exame de sangue'),
+(8, 10, '2025-01-17', 'Tontura', 'Possibilidade de formacao ruim dos globulos vermelhos', 'nenhum');
 

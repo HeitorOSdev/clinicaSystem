@@ -3,6 +3,7 @@ package br.ufrn.tads.repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -127,7 +128,7 @@ public class ConsultaDao implements Dao<Consulta> {
     @Override
     public boolean update(Consulta consulta, String[] params) {
         // if you use params, use parse methods (parseFloat, parseLong etc.)
-        String sql = "update consulta set fkPaciente = ?, fkMedico = ?, data = ?, queixa = ?, descricao = ?, relatosClinicos = ? where id = ?"; 
+        String sql = "update consulta set fkPaciente = ?, fkMedico= ?, data = ?, queixa = ?, descricao = ?, relatosClinicos = ? where id = ?"; 
         Connection conn = null;
         // prepares a query
         PreparedStatement preparedStatement = null;
@@ -186,4 +187,148 @@ public class ConsultaDao implements Dao<Consulta> {
         }
         return false;
     }
+    
+    public List<Consulta> findAllMedico(String idMedSql) { //listAll (if the database is huge, consider the use of pagination)
+        List<Consulta> consultas = new ArrayList<Consulta>();
+        String sql = "select * from consulta where fkMedico = ?"; 
+        Connection conn = null;
+        // prepares a query
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet= null;
+
+        try {
+            conn = DBconnection.getConnection();
+            preparedStatement = conn.prepareStatement(sql);
+            // sending the parameter to sql execution
+            preparedStatement.setString(1, idMedSql);
+
+            resultSet = preparedStatement.executeQuery();
+            // iterates the resultSet and stores in the object the column values from the database
+            while (resultSet.next()){
+            	
+            	SimpleDateFormat formatador = new SimpleDateFormat("yyyy-MM-dd");
+            	
+                Consulta consulta = new Consulta();
+                consulta.setId(resultSet.getLong("id"));
+                consulta.setFkMedico(Long.parseLong(resultSet.getString("fkMedico")));
+                consulta.setFkPaciente(Long.parseLong(resultSet.getString("fkPaciente")));
+                consulta.setData(formatador.parse(resultSet.getString("data")));
+                consulta.setQueixa(resultSet.getString("queixa"));
+                consulta.setDescricao(resultSet.getString("descricao"));
+                consulta.setRelatosClinicos(resultSet.getString("relatosClinicos"));
+
+                consultas.add(consulta); //add the object filled with database data to products list
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            // close all connections
+            try {
+                if (preparedStatement != null) preparedStatement.close();
+                if (conn != null) conn.close();
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return consultas;
+    }
+    
+    public List<Consulta> findAllPaciente(String idPacSql) { //listAll (if the database is huge, consider the use of pagination)
+        List<Consulta> consultas = new ArrayList<Consulta>();
+        String sql = "select * from consulta where fkPaciente = ?"; 
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet= null;
+
+        try {
+            conn = DBconnection.getConnection();
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, idPacSql);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+            	
+            	SimpleDateFormat formatador = new SimpleDateFormat("yyyy-MM-dd");
+            	
+                Consulta consulta = new Consulta();
+                consulta.setId(resultSet.getLong("id"));
+                consulta.setFkMedico(Long.parseLong(resultSet.getString("fkMedico")));
+                consulta.setFkPaciente(Long.parseLong(resultSet.getString("fkPaciente")));
+                consulta.setData(formatador.parse(resultSet.getString("data")));
+                consulta.setQueixa(resultSet.getString("queixa"));
+                consulta.setDescricao(resultSet.getString("descricao"));
+                consulta.setRelatosClinicos(resultSet.getString("relatosClinicos"));
+
+                consultas.add(consulta);
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (preparedStatement != null) preparedStatement.close();
+                if (conn != null) conn.close();
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return consultas;
+    }
+
+    public List<Consulta> findAllData(String dataSql1, String dataSql2) { //listAll (if the database is huge, consider the use of pagination)
+        List<Consulta> consultas = new ArrayList<Consulta>();
+        String sql = "select * from consulta where data like ? order by data like ?"; 
+        Connection conn = null;
+        // prepares a query
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet= null;
+
+        try {
+            conn = DBconnection.getConnection();
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, dataSql1);
+            preparedStatement.setString(2, dataSql2);
+
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+            	
+            	SimpleDateFormat formatador = new SimpleDateFormat("yyyy-MM-dd");
+            	
+                Consulta consulta = new Consulta();
+                consulta.setId(resultSet.getLong("id"));
+                consulta.setFkMedico(Long.parseLong(resultSet.getString("fkMedico")));
+                consulta.setFkPaciente(Long.parseLong(resultSet.getString("fkPaciente")));
+                consulta.setData(formatador.parse(resultSet.getString("data")));
+                consulta.setQueixa(resultSet.getString("queixa"));
+                consulta.setDescricao(resultSet.getString("descricao"));
+                consulta.setRelatosClinicos(resultSet.getString("relatosClinicos"));
+
+                consultas.add(consulta);
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            // close all connections
+            try {
+                if (preparedStatement != null) preparedStatement.close();
+                if (conn != null) conn.close();
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return consultas;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
